@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'editprofile.dart';
+
 class ABP extends StatelessWidget {
   const ABP({ Key? key }) : super(key: key);
 
@@ -25,7 +27,6 @@ class _TugasBesarState extends State<TugasBesar> {
   final List<Widget> _widgetOptions = const <Widget> [
     Home(),
     Profile(),
-    EditProfile(),
   ];
 
   void _onItemTapped(int index) {
@@ -117,10 +118,17 @@ class _ProfileState extends State<Profile> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xffff4f5a)
+                    // ignore: use_full_hex_values_for_flutter_colors
+                    primary: const Color(0xffff70d4e)
                   ),
                   onPressed: () {
-                    const EditProfile();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const EditProfile();
+                        }
+                      )
+                    );
                   },
                   child: const Text('Edit Profil'),
                 ),
@@ -166,37 +174,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class EditProfile extends StatefulWidget {
-  const EditProfile({ Key? key }) : super(key: key);
-
-  @override
-  State<EditProfile> createState() => _EditProfileState();
-}
-
-class _EditProfileState extends State<EditProfile> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(
-                  radius: 100.0,
-                  backgroundImage: AssetImage(
-                    'assets/img/Hiro_Circle.png',
-                  ),
-                ),
-            ],
           ),
         ),
       ),
