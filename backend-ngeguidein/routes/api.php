@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DestinasiController;
-
+use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Response;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,6 +19,10 @@ use App\Http\Controllers\DestinasiController;
 //     return $request->user();
 // });
 
+//get Data
 Route::get('/testdestinasi', [DestinasiController::class, 'index']);
 Route::get('/pilihan', [DestinasiController::class, 'pilihan']);
 Route::get('/pilihan/{id}', [DestinasiController::class, 'destinasi']);
+
+//Test Upload Image
+Route::post('/store', [DestinasiController::class, 'storeImage']);
