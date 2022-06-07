@@ -10,7 +10,7 @@ use App\Models\komentar;
 class DestinasiController extends Controller
 {
     public function index(){
-        return response("Test", 200);
+        return response("testing", 200);
     }
 
     public function pilihan(){
@@ -37,8 +37,37 @@ class DestinasiController extends Controller
         //     'komen' => $komen
         // ]);
         try{
-            $destinasi = Destinasi::where('id_destinasi', $id)->get();;
+            $destinasi = Destinasi::where('id_destinasi', $id)->first();
             return response($destinasi,200);
+        }catch(\Exception $e){
+            return response("Internal Server Error", 500);
+        }
+    }
+
+    public function storeImage(Request $request){
+        try{
+            // return response("test", 200);
+            $request->validate([
+                'image' => 'image|mimes:jpg,png,jpeg,svg|max:2000',
+            ]);
+            
+            // dd($request);
+            if ($file = $request->file('file')) {
+                $path = $file->store('public/files');
+                $name = $file->getClientOriginalName();
+    
+                //store your file into directory and db
+                // $save = new File();
+                // $save->save();
+                    
+                return response()->json([
+                    "success" => true,
+                    "message" => "File successfully uploaded",
+                    "file" => $path,
+                    "name" => $name,
+
+                ]);
+            }
         }catch(\Exception $e){
             return response("Internal Server Error", 500);
         }

@@ -126,4 +126,6 @@ class AdminController extends Controller
         Step_destinasi::where('id', $id_step)->delete();
         return redirect('/admin/view/'.$id);
     }
+
+   
 }
