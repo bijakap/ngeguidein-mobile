@@ -1,24 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:tugasbesarflutter/models/Destinasi.dart';
-import 'dart:convert';
-import 'dart:async';
-
-Future<List<Destinasi>> fetchDestinasi() async {
-  final response =
-      await http.get(Uri.parse('http://localhost:8000/api/pilihan'));
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Destinasi.fromJson(data)).toList();
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
+import 'package:tugasbesarflutter/api.dart';
+import 'package:tugasbesarflutter/screens/detail/detail_destinasi.dart';
 
 class HalamanHome extends StatefulWidget {
   const HalamanHome({Key? key}) : super(key: key);
@@ -119,7 +102,7 @@ class _CardDestinasiState extends State<CardDestinasi> {
                   fontSize: 16),
             ),
             Image.network(
-              "http://localhost:8000${widget.data.src}",
+              Apis.baseUrl + widget.data.src,
               height: 150,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
@@ -128,8 +111,25 @@ class _CardDestinasiState extends State<CardDestinasi> {
         ),
       ),
       onTap: () {
-        print("Tapped on container ${widget.data.idDestinasi}");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DetailDestinasi()),
+        );
       },
     );
   }
 }
+
+// class TempPage extends StatelessWidget {
+//   const TempPage({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('TempPage'),
+//       ),
+//       body: const Center(child: Text("test")),
+//     );
+//   }
+// }
