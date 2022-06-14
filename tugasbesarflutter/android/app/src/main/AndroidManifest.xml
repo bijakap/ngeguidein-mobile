@@ -2,6 +2,8 @@
     package="com.example.tugasbesarflutter">
      <!-- Required to fetch data from the internet. -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <application
         android:label="tugasbesarflutter"
         android:name="${applicationName}"
@@ -32,6 +34,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAR16gf74v3f4cklXfHHuwI1TW4vXFQB2E"/>
     </application>
    
 </manifest>
