@@ -11,7 +11,7 @@ class Apis {
 Future<List<Destinasi>> fetchDestinasi() async {
   final response = await http
       .get(Uri.parse(Apis.baseUrl + '/api/pilihan'))
-      .timeout(const Duration(seconds: 5));
+      .timeout(const Duration(seconds: 120));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
