@@ -1,16 +1,27 @@
 // ignore_for_file: unnecessary_const, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:tugasbesarflutter/api.dart';
+import 'package:tugasbesarflutter/models/user.dart';
 import 'package:tugasbesarflutter/screens/profile/profile.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  const EditProfile({Key? key, required this.data}) : super(key: key);
+  
+  final User data;
 
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final TextEditingController _controller1 = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
+  final TextEditingController _controller3 = TextEditingController();
+  final TextEditingController _controller4 = TextEditingController();
+  final TextEditingController _controller5 = TextEditingController();
+  final TextEditingController _controller6 = TextEditingController();
+  
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
@@ -86,14 +97,15 @@ class _EditProfileState extends State<EditProfile> {
                 const SizedBox(
                   height: 35,
                 ),
-                createTextField("Full Name", "Armadhani Hiro", false),
-                createTextField("Email", "hiroarmadhani@gmail.com", false),
-                createTextField("Password", "***********", true),
-                createTextField("Pekerjaan", "Mahasiswa", false),
-                createTextField("Fakultas", "Informatika", false),
-                createTextField("Deskripsi", "Kidding me?", false),
+                createTextField("Full Name", widget.data.name, false, _controller1),
+                createTextField("Email", widget.data.email, false, _controller2),
+                createTextField("Password", "***********", true, _controller3),
+                createTextField("Pekerjaan", widget.data.job, false, _controller4),
+                createTextField("Fakultas", widget.data.faculty, false, _controller5),
+                createTextField("Deskripsi", widget.data.bio, false, _controller6),
                 RaisedButton(
                   onPressed: () {
+                    updateUser(_controller1.text, _controller2.text, _controller4.text, _controller5.text, _controller6.text);
                     Navigator.of(context)
                         .pushReplacement(MaterialPageRoute(builder: (context) {
                       return const Profile();
@@ -118,10 +130,11 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Widget createTextField(
-      String labelText, String placeholder, bool isPassword) {
+      String labelText, String placeholder, bool isPassword, TextEditingController _controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
+        controller: _controller,
         obscureText: isPassword ? showPassword : false,
         decoration: InputDecoration(
             suffixIcon: isPassword

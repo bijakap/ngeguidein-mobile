@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AkunController;
 use Illuminate\Support\Facades\Response;
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,9 @@ use Illuminate\Support\Facades\Response;
 Route::get('/testdestinasi', [DestinasiController::class, 'index']);
 Route::get('/pilihan', [DestinasiController::class, 'pilihan']);
 Route::get('/pilihan/{id}', [DestinasiController::class, 'destinasi']);
+// Route::get('profile', [AkunController::class, 'index']);
+Route::get('profile/edit/{id}', [AkunController::class, 'tampilkan_data']);
+Route::post('profile/edit/{id}/post', [AkunController::class, 'ubah']);
 
 //Test Upload Image
 Route::post('/store', [DestinasiController::class, 'storeImage']);
