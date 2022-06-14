@@ -12,6 +12,15 @@ class DetailDestinasi extends StatefulWidget {
 }
 
 class _DetailDestinasiState extends State<DetailDestinasi> {
+  final komentarController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    komentarController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -99,6 +108,7 @@ class _DetailDestinasiState extends State<DetailDestinasi> {
                             children: [
                               Expanded(
                                 child: TextField(
+                                  controller: komentarController,
                                   decoration: InputDecoration(
                                     fillColor: Color(0x00C8C8C8),
                                     filled: true,
@@ -117,7 +127,18 @@ class _DetailDestinasiState extends State<DetailDestinasi> {
                               ),
                               const SizedBox(width: 10),
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // Ini Nanti Matiin aja, nanti panggilnya method post api
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content:
+                                              Text(komentarController.text),
+                                        );
+                                      },
+                                    );
+                                  },
                                   child: Text('Kirim',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
