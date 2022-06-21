@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:tugasbesarflutter/models/Destinasi.dart';
+// import 'dart:developer' as developer;
+// import 'package:flutter/foundation.dart';
 
 import 'models/user.dart';
 
 class Apis {
   // Sesuaiin sama IP address, biar mobile bisa akses
-  static const baseUrl = "http://127.0.0.1:8000";
+  static const baseUrl = "http://192.168.1.14:8000";
 }
 
 Future<List<Destinasi>> fetchDestinasi() async {
@@ -28,9 +30,8 @@ Future<List<Destinasi>> fetchDestinasi() async {
 }
 
 Future<User> fetchUser() async {
-  final response = await http.get(
-    Uri.parse(Apis.baseUrl + '/api/profile/edit/2')
-  );
+  final response =
+      await http.get(Uri.parse(Apis.baseUrl + '/api/profile/edit/2'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -43,33 +44,34 @@ Future<User> fetchUser() async {
   }
 }
 
-Future<User> updateUser(String username, String email, String job, String faculty, String bio) async {
+Future updateUser(String username, String email, String password, String job,
+    String faculty, String bio) async {
   try {
     final response = await http.post(
-      Uri.parse(Apis.baseUrl + '/api/profile/edit/2'),
+      Uri.parse(Apis.baseUrl + '/api/profile/edit/2/post'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'username': username,
-        'email' : email,
-        'job' : job,
-        'faculty' : faculty,
-        'bio' : bio,
+        'email': email,
+        'password': password,
+        'job': job,
+        'faculty': faculty,
+        'bio': bio,
       }),
     );
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      return User.fromJson(jsonDecode(response.body));
+      return "success";
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to update user.');
     }
-  }on Error catch (e) {
-    throw('General Error: $e');
+  } on Error catch (e) {
+    throw ('General Error: $e');
   }
-  
 }

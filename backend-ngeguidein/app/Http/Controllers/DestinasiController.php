@@ -53,6 +53,7 @@ class DestinasiController extends Controller
             
             // dd($request);
             if ($file = $request->file('file')) {
+                $file = $request->file('file');
                 $path = $file->store('public/files');
                 $name = $file->getClientOriginalName();
     

@@ -7,7 +7,7 @@ import 'package:tugasbesarflutter/screens/profile/profile.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key, required this.data}) : super(key: key);
-  
+
   final User data;
 
   @override
@@ -21,7 +21,18 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _controller4 = TextEditingController();
   final TextEditingController _controller5 = TextEditingController();
   final TextEditingController _controller6 = TextEditingController();
-  
+
+  @override
+  void initState() {
+    super.initState();
+    _controller1.text = widget.data.name;
+    _controller2.text = widget.data.email;
+    _controller3.text = "";
+    _controller4.text = widget.data.job;
+    _controller5.text = widget.data.faculty;
+    _controller6.text = widget.data.bio;
+  }
+
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
@@ -97,15 +108,26 @@ class _EditProfileState extends State<EditProfile> {
                 const SizedBox(
                   height: 35,
                 ),
-                createTextField("Full Name", widget.data.name, false, _controller1),
-                createTextField("Email", widget.data.email, false, _controller2),
+                createTextField(
+                    "Full Name", widget.data.name, false, _controller1),
+                createTextField(
+                    "Email", widget.data.email, false, _controller2),
                 createTextField("Password", "***********", true, _controller3),
-                createTextField("Pekerjaan", widget.data.job, false, _controller4),
-                createTextField("Fakultas", widget.data.faculty, false, _controller5),
-                createTextField("Deskripsi", widget.data.bio, false, _controller6),
+                createTextField(
+                    "Pekerjaan", widget.data.job, false, _controller4),
+                createTextField(
+                    "Fakultas", widget.data.faculty, false, _controller5),
+                createTextField(
+                    "Deskripsi", widget.data.bio, false, _controller6),
                 RaisedButton(
                   onPressed: () {
-                    updateUser(_controller1.text, _controller2.text, _controller4.text, _controller5.text, _controller6.text);
+                    updateUser(
+                        _controller1.text,
+                        _controller2.text,
+                        _controller3.text,
+                        _controller4.text,
+                        _controller5.text,
+                        _controller6.text);
                     Navigator.of(context)
                         .pushReplacement(MaterialPageRoute(builder: (context) {
                       return const Profile();
@@ -129,8 +151,8 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget createTextField(
-      String labelText, String placeholder, bool isPassword, TextEditingController _controller) {
+  Widget createTextField(String labelText, String placeholder, bool isPassword,
+      TextEditingController _controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
@@ -153,7 +175,7 @@ class _EditProfileState extends State<EditProfile> {
             contentPadding: const EdgeInsets.only(bottom: 3),
             labelText: labelText,
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
+            hintText: labelText,
             hintStyle: const TextStyle(
                 fontFamily: 'Poppins-light',
                 fontSize: 16,
