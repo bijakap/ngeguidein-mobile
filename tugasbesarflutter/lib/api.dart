@@ -7,7 +7,7 @@ import 'models/user.dart';
 
 class Apis {
   // Sesuaiin sama IP address, biar mobile bisa akses
-  static const baseUrl = 'http://192.168.1.3:8000';
+  static const baseUrl = "http://127.0.0.1:8000";
 }
 
 Future<List<Destinasi>> fetchDestinasi() async {
@@ -44,27 +44,32 @@ Future<User> fetchUser() async {
 }
 
 Future<User> updateUser(String username, String email, String job, String faculty, String bio) async {
-  final response = await http.put(
-    Uri.parse(Apis.baseUrl + '/api/profile/edit/2'),
-    // headers: <String, String>{
-    //   'Content-Type': 'application/json; charset=UTF-8',
-    // },
-    body: jsonEncode(<String, String>{
-      'username': username,
-      'email' : email,
-      'job' : job,
-      'faculty' : faculty,
-      'bio' : bio,
-    }),
-  );
+  try {
+    final response = await http.post(
+      Uri.parse(Apis.baseUrl + '/api/profile/edit/2'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'email' : email,
+        'job' : job,
+        'faculty' : faculty,
+        'bio' : bio,
+      }),
+    );
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return User.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to update user.');
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to update user.');
+    }
+  }on Error catch (e) {
+    throw('General Error: $e');
   }
+  
 }

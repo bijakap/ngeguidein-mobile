@@ -30,3 +30,4 @@ Route::post('profile/edit/{id}/post', [AkunController::class, 'ubah']);
 
 //Test Upload Image
 Route::post('/store', [DestinasiController::class, 'storeImage']);
+
