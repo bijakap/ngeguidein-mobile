@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tugasbesarflutter/screens/detail/detail_destinasi.dart';
 import 'package:tugasbesarflutter/models/Destinasi.dart';
 import 'package:tugasbesarflutter/api.dart';
+import 'package:tugasbesarflutter/screens/detail/testpage.dart';
 
 class HalamanHome extends StatefulWidget {
   const HalamanHome({Key? key}) : super(key: key);
@@ -117,6 +118,7 @@ class _CardDestinasiState extends State<CardDestinasi> {
               builder: (context) => DetailDestinasi(
                     destinasi: widget.data,
                   )),
+          // MaterialPageRoute(builder: (context) => const TestPage()),
         );
       },
     );
