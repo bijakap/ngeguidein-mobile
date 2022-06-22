@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:tugasbesarflutter/models/Destinasi.dart';
+import 'package:tugasbesarflutter/models/komentar.dart';
 // import 'dart:developer' as developer;
 // import 'package:flutter/foundation.dart';
 
@@ -9,7 +10,7 @@ import 'models/user.dart';
 
 class Apis {
   // Sesuaiin sama IP address, biar mobile bisa akses
-  static const baseUrl = "http://192.168.1.14:8000";
+  static const baseUrl = "http://127.0.0.1:8000";
 }
 
 Future<List<Destinasi>> fetchDestinasi() async {
@@ -22,6 +23,23 @@ Future<List<Destinasi>> fetchDestinasi() async {
     // then parse the JSON.
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((data) => Destinasi.fromJson(data)).toList();
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+Future<List<Komentar>> fetchKomentar() async {
+  final response = await http
+      .get(Uri.parse(Apis.baseUrl + '/api/komentar/1'))
+      .timeout(const Duration(seconds: 60));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((data) => Komentar.fromJson(data)).toList();
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.

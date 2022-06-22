@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tugasbesarflutter/api.dart';
 // import 'package:tugasbesarflutter/main.dart';
 import 'package:tugasbesarflutter/models/Destinasi.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:tugasbesarflutter/models/komentar.dart';
 
 class DetailDestinasi extends StatefulWidget {
   const DetailDestinasi({Key? key, required this.destinasi}) : super(key: key);
@@ -15,6 +17,14 @@ class DetailDestinasi extends StatefulWidget {
 }
 
 class _DetailDestinasiState extends State<DetailDestinasi> {
+  late Future<List<Komentar>> futureKomentar;
+
+  @override
+  void initState() {
+    super.initState();
+    futureKomentar = fetchKomentar();
+  }
+
   final komentarController = TextEditingController();
   BorderRadiusGeometry radius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
@@ -179,15 +189,44 @@ class _DetailDestinasiState extends State<DetailDestinasi> {
                                         ))),
                               ],
                             ),
-                            Card(
-                              margin: EdgeInsets.only(left: 30, right: 50),
-                              child: ListTile(
-                                leading: Image.asset('assets/img/profile.png',
-                                    height: 30),
-                                title: Text('Elita - 23 Maret 2022'),
-                                subtitle: Text('Hehe...'),
-                              ),
-                            )
+                            FutureBuilder<List<Komentar>>(
+                                future: futureKomentar,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    List<Komentar> data = snapshot.data!;
+                                    return Column(
+                                      children: [
+                                        for (var i = 0; i < data.length; i++)
+                                          Card(
+                                            margin: EdgeInsets.only(
+                                                left: 30, right: 50),
+                                            child: ListTile(
+                                              leading: Image.asset(
+                                                  'assets/img/profile.png',
+                                                  height: 30),
+                                              title: Text(
+                                                  data[i].idUser.toString()),
+                                              subtitle: Text(data[i].komentar),
+                                            ),
+                                          )
+                                      ],
+                                    );
+                                    //  Text(data.length.toString());
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  }
+
+                                  return const CircularProgressIndicator();
+                                })
+                            // Card(
+                            //   margin: EdgeInsets.only(left: 30, right: 50),
+                            //   child: ListTile(
+                            //     leading: Image.asset('assets/img/profile.png',
+                            //         height: 30),
+                            //     title: Text('Elita - 23 Maret 2022'),
+                            //     subtitle: Text('Hehe...'),
+                            //   ),
+                            // )
                           ])),
                     ],
                   ),
