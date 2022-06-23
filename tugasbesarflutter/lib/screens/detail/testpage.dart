@@ -12,7 +12,7 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
   final komentarController = TextEditingController();
-  BorderRadiusGeometry radius = BorderRadius.only(
+  BorderRadiusGeometry radius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
     topRight: Radius.circular(24.0),
   );
