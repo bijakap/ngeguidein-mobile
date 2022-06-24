@@ -19,6 +19,7 @@ class DetailDestinasi extends StatefulWidget {
 class _DetailDestinasiState extends State<DetailDestinasi> {
   // int _idDestinasi = Widget.destinasi.;
   late Future<List<Komentar>> futureKomentar;
+  bool login = false;
 
   final komentarController = TextEditingController();
   final PanelController _panelController = PanelController();
@@ -50,7 +51,9 @@ class _DetailDestinasiState extends State<DetailDestinasi> {
   @override
   void initState() {
     super.initState();
+    // if (login == true) {
     futureKomentar = fetchKomentar(widget.destinasi.idDestinasi);
+    // }
   }
 
   @override
@@ -85,10 +88,10 @@ class _DetailDestinasiState extends State<DetailDestinasi> {
         body: SlidingUpPanel(
           controller: _panelController,
           parallaxEnabled: true,
-          parallaxOffset: 0.5,
+          parallaxOffset: 0.6,
           minHeight: MediaQuery.of(context).size.height * 0.1,
           panel: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ListView(
               shrinkWrap: true,
               children: <Widget>[
@@ -145,72 +148,75 @@ class _DetailDestinasiState extends State<DetailDestinasi> {
                             height: 5,
                           ),
                           Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
                             child: Text('Foto',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                           ),
                           Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
                             child:
                                 Image.asset('assets/img/danau.png', height: 70),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
-                          Text('Komentar',
+                          const Text('Komentar',
                               style: TextStyle(fontWeight: FontWeight.bold)),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: komentarController,
-                                  decoration: InputDecoration(
-                                    fillColor: Color(0x00C8C8C8),
-                                    filled: true,
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    hintText: "Komentar..",
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      borderSide: BorderSide(
-                                          width: 2,
-                                          color:
-                                              Color.fromARGB(255, 59, 61, 58)),
+                          login == true
+                              ? Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        controller: komentarController,
+                                        decoration: InputDecoration(
+                                          fillColor: const Color(0x00C8C8C8),
+                                          filled: true,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                          hintText: "Komentar..",
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            borderSide: const BorderSide(
+                                                width: 2,
+                                                color: Color.fromARGB(
+                                                    255, 59, 61, 58)),
+                                          ),
+                                        ),
+                                      ),
                                     ),
+                                    const SizedBox(width: 10),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            futureKomentar = postKomentar(
+                                                widget.destinasi.idDestinasi,
+                                                3,
+                                                komentarController.text);
+                                          });
+                                          komentarController.clear();
+                                        },
+                                        child: const Text('Kirim',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        style: ElevatedButton.styleFrom(
+                                            onPrimary: Colors.white,
+                                            primary: Color(0xFF1A2E35),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ))),
+                                  ],
+                                )
+                              : Container(
+                                  margin: EdgeInsets.symmetric(vertical: 10),
+                                  child: const Text(
+                                    "Login Untuk Menambahkan Komentar",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    // Ini Nanti Matiin aja, nanti panggilnya method post api
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (context) {
-                                    //     return AlertDialog(
-                                    //       content: Text(widget
-                                    //           .destinasi.idDestinasi
-                                    //           .toString()),
-                                    //     );
-                                    //   },
-                                    // );
-                                    setState(() {
-                                      futureKomentar = postKomentar(
-                                          widget.destinasi.idDestinasi,
-                                          3,
-                                          komentarController.text);
-                                    });
-                                    komentarController.clear();
-                                  },
-                                  child: const Text('Kirim',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  style: ElevatedButton.styleFrom(
-                                      onPrimary: Colors.white,
-                                      primary: Color(0xFF1A2E35),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ))),
-                            ],
-                          ),
                           FutureBuilder<List<Komentar>>(
                               future: futureKomentar,
                               builder: (context, snapshot) {

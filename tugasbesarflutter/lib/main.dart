@@ -43,6 +43,7 @@ class TugasBesar extends StatefulWidget {
 
 class _TugasBesarState extends State<TugasBesar> {
   int _selectedIndex = 0;
+  bool login = true;
 
   final List<Widget> _widgetOptions = const <Widget>[
     HalamanHome(),
@@ -53,6 +54,14 @@ class _TugasBesarState extends State<TugasBesar> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  tampilanHome() {
+    if (login == false && _selectedIndex == 1) {
+      return const NotLogin();
+    } else {
+      return _widgetOptions.elementAt(_selectedIndex);
+    }
   }
 
   @override
@@ -71,7 +80,8 @@ class _TugasBesarState extends State<TugasBesar> {
         backgroundColor: const Color(0x00d9d9d9),
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        // child: _widgetOptions.elementAt(_selectedIndex),
+        child: tampilanHome(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -89,5 +99,16 @@ class _TugasBesarState extends State<TugasBesar> {
         onTap: _onItemTapped,
       ),
     );
+  }
+}
+
+class NotLogin extends StatelessWidget {
+  const NotLogin({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: const Text("Belom Login Ceritanya"));
   }
 }
