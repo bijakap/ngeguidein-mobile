@@ -9,15 +9,14 @@ class User {
   final String faculty;
   final String bio;
 
-  User({
-    required this.id,
-    required this.name,
-    required this.gambar,
-    required this.email,
-    required this.job,
-    required this.faculty,
-    required this.bio
-  });
+  User(
+      {required this.id,
+      required this.name,
+      required this.gambar,
+      required this.email,
+      required this.job,
+      required this.faculty,
+      required this.bio});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -25,8 +24,8 @@ class User {
         name: json['name'],
         gambar: json['gambar'],
         email: json['email'],
-        job: json['job'],
-        faculty: json['faculty'],
-        bio: json['bio']);
+        job: json['job'] == null ? "" : json['job'],
+        faculty: json['faculty'] == null ? "" : json['faculty'],
+        bio: json['bio'] == null ? "" : json['bio']);
   }
 }

@@ -6,6 +6,7 @@ use App\Models\Destinasi;
 use App\Models\Step_destinasi;
 use Illuminate\Http\Request;
 use App\Models\komentar;
+use Illuminate\Support\Facades\Storage;
 
 class DestinasiController extends Controller
 {
@@ -37,8 +38,10 @@ class DestinasiController extends Controller
         //     'komen' => $komen
         // ]);
         try{
-            $destinasi = Destinasi::where('id_destinasi', $id)->first();
-            return response($destinasi,200);
+            // $destinasi = Destinasi::where('id_destinasi', $id)->first();
+            $step = Step_destinasi::where("id_step", $id)->get();
+            // $destinasi['step'] = $step;
+            return response($step,200);
         }catch(\Exception $e){
             return response("Internal Server Error", 500);
         }
@@ -54,17 +57,14 @@ class DestinasiController extends Controller
             // dd($request);
             if ($file = $request->file('file')) {
                 $file = $request->file('file');
-                $path = $file->store('public/files');
+                $path = Storage::disk('public')->put($file->getClientOriginalName(), 'Contents');
                 $name = $file->getClientOriginalName();
     
-                //store your file into directory and db
-                // $save = new File();
-                // $save->save();
                     
                 return response()->json([
                     "success" => true,
                     "message" => "File successfully uploaded",
-                    "file" => $path,
+                    "file" => "/storage/" . $name,
                     "name" => $name,
 
                 ]);

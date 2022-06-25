@@ -20,18 +20,18 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "admin",
             'email' => 'admin@gmail.com',
-            'password' => '$2y$10$uOerm2hD9fMazbM1zIKG2O.rZfCMDGpXRukv6K99P6x2yl6EEtRCu',
+            'password' => bcrypt("admin123"),
             'Level' => 'admin',
         ]);
 
         DB::table('users')->insert([
             'name' => "Hashirama Hiro",
             'email' => 'Hiro@gmail.com',
-            'password' => '$2y$10$uOerm2hD9fMazbM1zIKG2O.rZfCMDGpXRukv6K99P6x2yl6EEtRCu',
+            'password' => bcrypt("qwerty123"),
             'job' => 'Anak Kuliah',
             'faculty' => 'Something something',
             'bio' => "I'm interested in Programming",
-            'gambar' => '/img/profile.png'
+            'gambar' => '/storage/akun.png'
         ]);
 
         $this->call([

@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('nama_tempat');
             $table->string('deskripsi');
             $table->string('src');
+            // <-- Pembaharuan
+            $table->string('latitude');
+            $table->string('longitude');
+            // Pembaharuan -->
             $table->timestamps();
         });
     }

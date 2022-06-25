@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tugasbesarflutter/api.dart';
+import 'package:tugasbesarflutter/main.dart';
 import 'package:tugasbesarflutter/models/user.dart';
 import 'package:tugasbesarflutter/screens/profile/profile.dart';
 import 'dart:io';
@@ -52,104 +53,101 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-            backgroundColor: const Color(0x00d9d9d9),
-            elevation: 1,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(217, 217, 217, 217),
+        title: Text(
+          "edit",
+          style: const TextStyle(
+            fontFamily: 'Poppins-Bold',
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Column(
+          children: [
+            Center(
+              child: Stack(
+                children: [
+                  Container(
+                    width: 130,
+                    height: 130,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 4,
+                          color: Theme.of(context).scaffoldBackgroundColor),
+                      boxShadow: [
+                        BoxShadow(
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.1),
+                            offset: const Offset(0, 10))
+                      ],
+                      shape: BoxShape.circle,
+                      image: const DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage('assets/img/Hiro_Circle.png'),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+            ),
+            SizedBox(height: 10),
+            CustomButton(
+              title : "Edit Foto", 
+              icon: Icons.image_outlined,
+              onClick: getImage,
+            ),
+            const SizedBox(
+              height: 35,
+            ),
+            createTextField(
+                "Full Name", widget.data.name, false, _controller1),
+            createTextField(
+                "Email", widget.data.email, false, _controller2),
+            createTextField("Password", "***********", true, _controller3),
+            createTextField(
+                "Pekerjaan", widget.data.job, false, _controller4),
+            createTextField(
+                "Fakultas", widget.data.faculty, false, _controller5),
+            createTextField(
+                "Deskripsi", widget.data.bio, false, _controller6),
+            RaisedButton(
               onPressed: () {
-                Navigator.of(context).pop(MaterialPageRoute(builder: (context) {
+                updateUser(
+                    _controller1.text,
+                    _controller2.text,
+                    _controller3.text,
+                    _controller4.text,
+                    _controller5.text,
+                    _controller6.text);
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
                   return const Profile();
                 }));
               },
+              // ignore: use_full_hex_values_for_flutter_colors
+              color: const Color(0xffff70d4e),
+              child: const Text(
+                "Simpan",
+                style: TextStyle(
+                    fontFamily: "Poppins-light",
+                    fontSize: 14,
+                    letterSpacing: 2,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          body: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Column(
-              children: [
-                Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 130,
-                        height: 130,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: const Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/img/Hiro_Circle.png'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                CustomButton(
-                  title : "Edit Foto", 
-                  icon: Icons.image_outlined,
-                  onClick: getImage,
-                ),
-                const SizedBox(
-                  height: 35,
-                ),
-                createTextField(
-                    "Full Name", widget.data.name, false, _controller1),
-                createTextField(
-                    "Email", widget.data.email, false, _controller2),
-                createTextField("Password", "***********", true, _controller3),
-                createTextField(
-                    "Pekerjaan", widget.data.job, false, _controller4),
-                createTextField(
-                    "Fakultas", widget.data.faculty, false, _controller5),
-                createTextField(
-                    "Deskripsi", widget.data.bio, false, _controller6),
-                RaisedButton(
-                  onPressed: () {
-                    updateUser(
-                        _controller1.text,
-                        _controller2.text,
-                        _controller3.text,
-                        _controller4.text,
-                        _controller5.text,
-                        _controller6.text);
-                    Navigator.of(context)
-                        .pushReplacement(MaterialPageRoute(builder: (context) {
-                      return const Profile();
-                    }));
-                  },
-                  // ignore: use_full_hex_values_for_flutter_colors
-                  color: const Color(0xffff70d4e),
-                  child: const Text(
-                    "Simpan",
-                    style: TextStyle(
-                        fontFamily: "Poppins-light",
-                        fontSize: 14,
-                        letterSpacing: 2,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-          )
-        );
+          ],
+        ),
+      )
+    );
   }
 
   Widget CustomButton({
