@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tugasbesarflutter/screens/profile/profile.dart';
 import 'package:tugasbesarflutter/screens/homepage/homepage.dart';
+import 'package:tugasbesarflutter/screens/loginRegister/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,6 +66,26 @@ class _TugasBesarState extends State<TugasBesar> {
     }
   }
 
+  void validasiLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? val = prefs.getString("token");
+    if (val == null) {
+      setState(() {
+        login = false;
+      });
+    } else {
+      setState(() {
+        login = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    validasiLogin();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +131,25 @@ class NotLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: const Text("Belom Login Ceritanya"));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text("Anda Belum Login"),
+        TextButton(
+          style: TextButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 20),
+              backgroundColor: Colors.grey),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Loginpage()));
+          },
+          child: const Text(
+            'Klik here To Login',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    );
   }
 }

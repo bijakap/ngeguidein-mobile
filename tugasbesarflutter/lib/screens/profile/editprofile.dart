@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tugasbesarflutter/api.dart';
+import 'package:tugasbesarflutter/main.dart';
 import 'package:tugasbesarflutter/models/user.dart';
 import 'package:tugasbesarflutter/screens/profile/profile.dart';
 
@@ -121,7 +122,7 @@ class _EditProfileState extends State<EditProfile> {
                     _controller6.text);
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const Profile();
+                  return const ABP();
                 }));
               },
               // ignore: use_full_hex_values_for_flutter_colors

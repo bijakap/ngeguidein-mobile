@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('step_ke');
             $table->string('titik_x');
             $table->string('titik_y');
+            // <-- Pembaharuan
+            $table->string('latitude')->default('-6.973188693551878');
+            $table->string('longitude')->default('107.63031264348629');
+            // Pembaharuan -->
             $table->string('src');
             $table->timestamps();
 

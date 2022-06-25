@@ -118,7 +118,6 @@ class _CardDestinasiState extends State<CardDestinasi> {
               builder: (context) => DetailDestinasi(
                     destinasi: widget.data,
                   )),
-          // MaterialPageRoute(builder: (context) => const TestPage()),
         );
       },
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tugasbesarflutter/models/user.dart';
 import 'editprofile.dart';
-
 import 'package:tugasbesarflutter/api.dart';
 
 class Profile extends StatefulWidget {
@@ -13,10 +12,12 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   late Future<User> _futureUser;
+  String id = "";
 
   @override
   void initState() {
     super.initState();
+    setState(() {});
     _futureUser = fetchUser();
   }
 
@@ -34,10 +35,10 @@ class _ProfileState extends State<Profile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 100.0,
-                        backgroundImage: AssetImage(
-                          'assets/img/Hiro_Circle.png',
+                        backgroundImage: NetworkImage(
+                          Apis.baseUrl + snapshot.data!.gambar,
                         ),
                       ),
                       const SizedBox(
@@ -55,7 +56,7 @@ class _ProfileState extends State<Profile> {
                                         data: snapshot.data!,
                                       )));
                         },
-                        child: const Text('Edit Profil'),
+                        child: Text('Edit Profil'),
                       ),
                       const SizedBox(
                         height: 20.0,
@@ -103,7 +104,7 @@ class _ProfileState extends State<Profile> {
               return Text('${snapshot.error}');
             }
           }
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

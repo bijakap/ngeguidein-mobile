@@ -5,6 +5,7 @@ use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\KomenController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Response;
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::get('/pilihan', [DestinasiController::class, 'pilihan']);
 Route::get('/pilihan/{id}', [DestinasiController::class, 'destinasi']);
 Route::get('/komentar/{id}', [KomenController::class, 'tampilKomentar']);
 
+// Profile
 // Route::get('profile', [AkunController::class, 'index']);
 Route::get('profile/edit/{id}', [AkunController::class, 'tampilkan_data']);
 Route::post('profile/edit/{id}/post', [AkunController::class, 'ubah']);
@@ -36,4 +38,9 @@ Route::post('/store', [DestinasiController::class, 'storeImage']);
 
 //komentar
 Route::post('/komentar/{id}/post_komen/{id_user}', [KomenController::class, 'index']);
+
+//Login Register Logout
+Route::post('/login', [UsersController::class,'login']);
+Route::post('/register', [UsersController::class, 'register']);
+Route::get('/logout', [UsersController::class, 'logout'])->middleware('auth:api');
 

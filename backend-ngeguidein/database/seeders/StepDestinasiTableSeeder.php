@@ -23,13 +23,23 @@ class StepDestinasiTableSeeder extends Seeder
             ]
         ];
 
+        $latLng = [
+            [
+                [-6.973199350750008, 107.63335572892036],
+                [-6.974040658533229, 107.63256179504644],
+                [-6.976064050838248, 107.63269054107744]
+            ]
+        ];
+
         for ($i = 1; $i < 4; $i++){
             $step = new Step_destinasi;
             $step->id_step = 1;
             $step->step_ke = 'Langkah Ke -' . " ". $i;
             $step->titik_x = $titik[0][$i-1][0];
             $step->titik_y = $titik[0][$i-1][1];
-            $step->src = '/img/tempimage.png';
+            $step->latitude = $latLng[0][$i-1][0];
+            $step->longitude = $latLng[0][$i-1][1];
+            $step->src = '/storage/tempimage.png';
             $step->save();
         }
 
@@ -39,7 +49,9 @@ class StepDestinasiTableSeeder extends Seeder
             $step->step_ke = 'Langkah Ke -' . " ". $i;
             $step->titik_x = $titik[0][$i-1][0];
             $step->titik_y = $titik[0][$i-1][1];
-            $step->src = '/img/tempimage.png';
+            $step->latitude = $latLng[0][$i-1][0];
+            $step->longitude = $latLng[0][$i-1][1];
+            $step->src = '/storage/tempimage.png';
             $step->save();
         }
 
@@ -49,18 +61,20 @@ class StepDestinasiTableSeeder extends Seeder
             $step->step_ke = 'Langkah Ke -' . " ". $i;
             $step->titik_x = $titik[0][$i-1][0];
             $step->titik_y = $titik[0][$i-1][1];
-            $step->src = '/img/tempimage.png';
+            $step->latitude = $latLng[0][$i-1][0];
+            $step->longitude = $latLng[0][$i-1][1];
+            $step->src = '/storage/tempimage.png';
             $step->save();
         }
 
-        for ($i = 1; $i < 4; $i++){
-            $step = new Step_destinasi;
-            $step->id_step = 4;
-            $step->step_ke = 'Langkah Ke -' . " ". $i;
-            $step->titik_x = $titik[0][$i-1][0];
-            $step->titik_y = $titik[0][$i-1][1];
-            $step->src = '/img/tempimage.png';
-            $step->save();
-        }
+        // for ($i = 1; $i < 4; $i++){
+        //     $step = new Step_destinasi;
+        //     $step->id_step = 4;
+        //     $step->step_ke = 'Langkah Ke -' . " ". $i;
+        //     $step->titik_x = $titik[0][$i-1][0];
+        //     $step->titik_y = $titik[0][$i-1][1];
+        //     $step->src = '/storage/tempimage.png';
+        //     $step->save();
+        // }
     }
 }
