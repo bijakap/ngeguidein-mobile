@@ -147,7 +147,7 @@ Future updateUser(String username, String email, String password, String job,
   }
 }
 
-Future Logout() async {
+Future logout() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   final response = await http.get(
