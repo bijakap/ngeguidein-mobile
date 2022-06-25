@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:tugasbesarflutter/api.dart';
 import 'package:tugasbesarflutter/models/user.dart';
 import 'package:tugasbesarflutter/screens/profile/profile.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:open_file/open_file.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key, required this.data}) : super(key: key);
@@ -17,27 +17,17 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  FilePickerResult? result;
-  PlatformFile? file;
+  File? _image;
 
-  void pickFiles() async {
-    result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg','png']
-    );
-    if(result == null) return;
+  Future getImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
 
-    file = result?.files.first;
+    final imageTemporary = File(image.path);
 
     setState(() {
-      
+      this._image = imageTemporary;
     });
-    // viewFile(file!);
-
-  }
-
-  void viewFile(PlatformFile file) {
-    OpenFile.open(file.path);
   }
 
   final TextEditingController _controller1 = TextEditingController();
@@ -81,7 +71,7 @@ class _EditProfileState extends State<EditProfile> {
             onTap: () {
               FocusScope.of(context).unfocus();
             },
-            child: ListView(
+            child: Column(
               children: [
                 Center(
                   child: Stack(
@@ -103,60 +93,18 @@ class _EditProfileState extends State<EditProfile> {
                           shape: BoxShape.circle,
                           image: const DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage('assets/img/Hiro_Circle.png')),
+                              image: AssetImage('assets/img/Hiro_Circle.png'),
+                          ),
                         ),
                       ),
-                      Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                  width: 4,
-                                  color: Theme.of(context)
-                                      .scaffoldBackgroundColor),
-                              // ignore: use_full_hex_values_for_flutter_colors
-                              color: const Color(0xffff70d4e),
-                            ),
-                            child: 
-                              IconButton(
-                                icon: const Icon(Icons.edit),
-                                color: Colors.white,
-                                iconSize: 20,
-                                splashRadius: 40,
-                                splashColor: Colors.deepOrange,               
-                                onPressed: () {
-                                  pickFiles();
-                                },
-
-                              )
-
-
-                            // child: ElevatedButton(
-                            //   onPressed: () {},
-                            //   child: Center(
-                            //     child: const Icon(
-                            //       Icons.edit,
-                            //       color: Colors.white,
-                            //     ),
-                            //   ),
-                            //   // ignore: use_full_hex_values_for_flutter_colors
-                            //   style: ButtonStyle(
-                            //     shape: MaterialStateProperty.all(
-                            //       RoundedRectangleBorder(
-                            //         // Change your radius here
-                            //         borderRadius: BorderRadius.circular(16),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // )
-                            
-                          ))
                     ],
                   ),
+                ),
+                SizedBox(height: 10),
+                CustomButton(
+                  title : "Edit Foto", 
+                  icon: Icons.image_outlined,
+                  onClick: getImage,
                 ),
                 const SizedBox(
                   height: 35,
@@ -202,6 +150,32 @@ class _EditProfileState extends State<EditProfile> {
             ),
           )
         );
+  }
+
+  Widget CustomButton({
+    required String title,
+    required IconData icon,
+    required VoidCallback onClick,}
+    
+  ) {
+    return Container(
+      width: 200,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xffff70d4e),
+          onPrimary: Colors.white,
+        ),
+        onPressed: onClick,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon),
+            SizedBox(width: 20),
+            Text(title),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget createTextField(String labelText, String placeholder, bool isPassword,

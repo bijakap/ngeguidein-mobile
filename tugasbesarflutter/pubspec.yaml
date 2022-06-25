@@ -40,6 +40,8 @@ dependencies:
   custom_info_window: ^1.0.1
   file_picker: ^3.0.4
   open_file: ^3.2.1
+  path_provider: ^2.0.11
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:
