@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:tugasbesarflutter/api.dart';
 import 'package:tugasbesarflutter/models/user.dart';
 import 'package:tugasbesarflutter/screens/profile/profile.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:open_file/open_file.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key, required this.data}) : super(key: key);
@@ -15,6 +17,29 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  FilePickerResult? result;
+  PlatformFile? file;
+
+  void pickFiles() async {
+    result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg','png']
+    );
+    if(result == null) return;
+
+    file = result?.files.first;
+
+    setState(() {
+      
+    });
+    // viewFile(file!);
+
+  }
+
+  void viewFile(PlatformFile file) {
+    OpenFile.open(file.path);
+  }
+
   final TextEditingController _controller1 = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
   final TextEditingController _controller3 = TextEditingController();
@@ -36,8 +61,7 @@ class _EditProfileState extends State<EditProfile> {
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             backgroundColor: const Color(0x00d9d9d9),
             elevation: 1,
@@ -97,10 +121,39 @@ class _EditProfileState extends State<EditProfile> {
                               // ignore: use_full_hex_values_for_flutter_colors
                               color: const Color(0xffff70d4e),
                             ),
-                            child: const Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                            ),
+                            child: 
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                color: Colors.white,
+                                iconSize: 20,
+                                splashRadius: 40,
+                                splashColor: Colors.deepOrange,               
+                                onPressed: () {
+                                  pickFiles();
+                                },
+
+                              )
+
+
+                            // child: ElevatedButton(
+                            //   onPressed: () {},
+                            //   child: Center(
+                            //     child: const Icon(
+                            //       Icons.edit,
+                            //       color: Colors.white,
+                            //     ),
+                            //   ),
+                            //   // ignore: use_full_hex_values_for_flutter_colors
+                            //   style: ButtonStyle(
+                            //     shape: MaterialStateProperty.all(
+                            //       RoundedRectangleBorder(
+                            //         // Change your radius here
+                            //         borderRadius: BorderRadius.circular(16),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // )
+                            
                           ))
                     ],
                   ),
@@ -147,8 +200,8 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ],
             ),
-          )),
-    );
+          )
+        );
   }
 
   Widget createTextField(String labelText, String placeholder, bool isPassword,

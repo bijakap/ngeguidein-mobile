@@ -9,7 +9,7 @@ import 'models/user.dart';
 
 class Apis {
   // Sesuaiin sama IP address, biar mobile bisa akses
-  static const baseUrl = "http://192.168.1.14:8000";
+  static const baseUrl = "http://127.0.0.1:8000";
 }
 
 Future<List<Destinasi>> fetchDestinasi() async {
