@@ -146,3 +146,22 @@ Future updateUser(String username, String email, String password, String job,
     throw ('General Error: $e');
   }
 }
+
+Future Logout() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  final response = await http.get(
+    Uri.parse(Apis.baseUrl + '/api/logout'),
+    headers: {'Authorization': 'Bearer ${prefs.getString('token')}'},
+  );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Logout Gagal');
+  }
+}

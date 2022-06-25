@@ -3,6 +3,7 @@ import 'package:tugasbesarflutter/screens/profile/profile.dart';
 import 'package:tugasbesarflutter/screens/homepage/homepage.dart';
 import 'package:tugasbesarflutter/screens/loginRegister/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tugasbesarflutter/api.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Tubes',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -99,6 +100,21 @@ class _TugasBesarState extends State<TugasBesar> {
             fontSize: 18.0,
           ),
         ),
+        actions: [
+          login
+              ? IconButton(
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    prefs.clear();
+                    logout();
+                    setState(() {
+                      login = false;
+                    });
+                  },
+                  icon: Icon(Icons.logout),
+                )
+              : const SizedBox()
+        ],
         backgroundColor: const Color(0x00d9d9d9),
       ),
       body: Center(
