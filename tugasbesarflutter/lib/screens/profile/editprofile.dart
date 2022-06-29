@@ -5,6 +5,8 @@ import 'package:tugasbesarflutter/api.dart';
 import 'package:tugasbesarflutter/main.dart';
 import 'package:tugasbesarflutter/models/user.dart';
 import 'package:tugasbesarflutter/screens/profile/profile.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key, required this.data}) : super(key: key);
@@ -16,6 +18,19 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  File? _image;
+
+  Future getImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+
+    final imageTemporary = File(image.path);
+
+    setState(() {
+      this._image = imageTemporary;
+    });
+  }
+
   final TextEditingController _controller1 = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
   final TextEditingController _controller3 = TextEditingController();
@@ -54,7 +69,7 @@ class _EditProfileState extends State<EditProfile> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: ListView(
+        child: Column(
           children: [
             Center(
               child: Stack(
@@ -76,41 +91,33 @@ class _EditProfileState extends State<EditProfile> {
                       shape: BoxShape.circle,
                       image: const DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage('assets/img/Hiro_Circle.png')),
+                          image: AssetImage('assets/img/Hiro_Circle.png'),
+                      ),
                     ),
                   ),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          // ignore: use_full_hex_values_for_flutter_colors
-                          color: const Color(0xffff70d4e),
-                        ),
-                        child: const Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
-                      ))
                 ],
               ),
+            ),
+            SizedBox(height: 10),
+            CustomButton(
+              title : "Edit Foto", 
+              icon: Icons.image_outlined,
+              onClick: getImage,
             ),
             const SizedBox(
               height: 35,
             ),
-            createTextField("Full Name", widget.data.name, false, _controller1),
-            createTextField("Email", widget.data.email, false, _controller2),
+            createTextField(
+                "Full Name", widget.data.name, false, _controller1),
+            createTextField(
+                "Email", widget.data.email, false, _controller2),
             createTextField("Password", "***********", true, _controller3),
-            createTextField("Pekerjaan", widget.data.job, false, _controller4),
+            createTextField(
+                "Pekerjaan", widget.data.job, false, _controller4),
             createTextField(
                 "Fakultas", widget.data.faculty, false, _controller5),
-            createTextField("Deskripsi", widget.data.bio, false, _controller6),
+            createTextField(
+                "Deskripsi", widget.data.bio, false, _controller6),
             RaisedButton(
               onPressed: () {
                 updateUser(
@@ -122,7 +129,7 @@ class _EditProfileState extends State<EditProfile> {
                     _controller6.text);
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const ABP();
+                  return const Profile();
                 }));
               },
               // ignore: use_full_hex_values_for_flutter_colors
@@ -137,6 +144,32 @@ class _EditProfileState extends State<EditProfile> {
                     fontWeight: FontWeight.bold),
               ),
             ),
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget CustomButton({
+    required String title,
+    required IconData icon,
+    required VoidCallback onClick,}
+    
+  ) {
+    return Container(
+      width: 200,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xffff70d4e),
+          onPrimary: Colors.white,
+        ),
+        onPressed: onClick,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon),
+            SizedBox(width: 20),
+            Text(title),
           ],
         ),
       ),
