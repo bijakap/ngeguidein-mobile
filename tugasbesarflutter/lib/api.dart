@@ -11,12 +11,29 @@ import 'models/user.dart';
 
 class Apis {
   // Sesuaiin sama IP address, biar mobile bisa akses
-  static const baseUrl = "http://192.168.1.20:8000";
+  static const baseUrl = "http://192.168.1.11:8000";
 }
 
 Future<List<Destinasi>> fetchDestinasi() async {
   final response = await http
       .get(Uri.parse(Apis.baseUrl + '/api/pilihan'))
+      .timeout(const Duration(seconds: 60));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((data) => Destinasi.fromJson(data)).toList();
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+Future<List<Destinasi>> fetchRekomendasi() async {
+  final response = await http
+      .get(Uri.parse(Apis.baseUrl + '/api/rekomendasi'))
       .timeout(const Duration(seconds: 60));
 
   if (response.statusCode == 200) {

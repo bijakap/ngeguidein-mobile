@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\KomenController;
 use App\Http\Controllers\UsersController;
@@ -27,6 +27,7 @@ Route::get('/testdestinasi', [DestinasiController::class, 'index']);
 Route::get('/pilihan', [DestinasiController::class, 'pilihan']);
 Route::get('/pilihan/{id}', [DestinasiController::class, 'destinasi']);
 Route::get('/komentar/{id}', [KomenController::class, 'tampilKomentar']);
+Route::get('/rekomendasi', [DestinasiController::class, 'getDestinasiByCountKomentar']);
 
 // Profile
 // Route::get('profile', [AkunController::class, 'index']);

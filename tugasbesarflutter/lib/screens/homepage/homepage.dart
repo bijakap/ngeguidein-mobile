@@ -13,11 +13,13 @@ class HalamanHome extends StatefulWidget {
 
 class _HalamanHomeState extends State<HalamanHome> {
   late Future<List<Destinasi>> futureDestinasi;
+  late Future<List<Destinasi>> futureRekomendasi;
 
   @override
   void initState() {
     super.initState();
     futureDestinasi = fetchDestinasi();
+    futureRekomendasi = fetchRekomendasi();
   }
 
   @override
@@ -29,6 +31,37 @@ class _HalamanHomeState extends State<HalamanHome> {
             margin: const EdgeInsets.symmetric(vertical: 15.0),
             child: Image.asset('assets/img/landing.png'),
           ),
+          Container(
+            child: const Text(
+              "REKOMENDASI TEMPAT TEMPAT MENARIK :",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  fontSize: 16),
+            ),
+            margin: const EdgeInsets.only(bottom: 10.0),
+          ),
+          FutureBuilder<List<Destinasi>>(
+              future: futureRekomendasi,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Destinasi> data = snapshot.data!;
+                  return Column(
+                    children: [
+                      for (var i = 0; i < data.length; i++)
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: CardDestinasi(data: data[i]),
+                        )
+                    ],
+                  );
+                  //  Text(data.length.toString());
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+
+                return const CircularProgressIndicator();
+              }),
           Container(
             child: const Text(
               "DAFTAR TEMPAT TEMPAT MENARIK :",

@@ -106,7 +106,7 @@ class _TugasBesarState extends State<TugasBesar> {
                   onPressed: () async {
                     final prefs = await SharedPreferences.getInstance();
                     prefs.clear();
-                    Logout();
+                    logout();
                     setState(() {
                       login = false;
                     });

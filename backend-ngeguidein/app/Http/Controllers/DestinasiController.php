@@ -7,6 +7,7 @@ use App\Models\Step_destinasi;
 use Illuminate\Http\Request;
 use App\Models\komentar;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class DestinasiController extends Controller
 {
@@ -51,13 +52,13 @@ class DestinasiController extends Controller
         try{
             // return response("test", 200);
             $request->validate([
-                'image' => 'image|mimes:jpg,png,jpeg,svg|max:2000',
+                'file' => 'image|mimes:jpg,png,jpeg,svg|max:2000',
             ]);
             
             // dd($request);
             if ($file = $request->file('file')) {
                 $file = $request->file('file');
-                $path = Storage::disk('public')->put($file->getClientOriginalName(), 'Contents');
+                $path = Storage::disk('public')->put($file->getClientOriginalName(), file_get_contents($file));
                 $name = $file->getClientOriginalName();
     
                     
@@ -69,6 +70,20 @@ class DestinasiController extends Controller
 
                 ]);
             }
+        }catch(\Exception $e){
+            return response("Internal Server Error", 500);
+        }
+    }
+
+    public function getDestinasiByCountKomentar(){
+        try{
+            $rekomendasi = DB::table('komentars')
+            ->select(array('destinasis.*', DB::raw('COUNT(komentars.id_destinasi) as count')))
+            ->join('destinasis', "komentars.id_destinasi", "=" , "destinasis.id_destinasi")
+            ->groupBy("komentars.id_destinasi")
+            ->orderBy("count", 'desc')
+            ->get();
+            return response($rekomendasi,200);
         }catch(\Exception $e){
             return response("Internal Server Error", 500);
         }
